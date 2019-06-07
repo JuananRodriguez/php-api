@@ -1,0 +1,47 @@
+version: '3.6'
+services:
+  mysql:
+    image: mysql/mysql-server:5.7.21
+    expose: 
+      - "3306"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_HOST=%
+    networks:
+      api_network:
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - mysql
+    expose: 
+      - "80"
+    ports:
+      - "8080:80"
+    links:
+      - mysql:db
+    environment:
+      - PMA_PASSWORD=${MYSQL_PASSWORD}
+    networks:
+      api_network:
+
+  ubuntu:
+    image: 1and1internet/ubuntu-16-apache-php-7.1
+    depends_on:
+      - mysql
+    expose: 
+      - "8080"
+    ports:
+      - "80:8080"
+    working_dir: /var/www
+    volumes:
+      - ./ubuntu/blog:/var/www
+    networks:
+      api_network:
+
+networks:
+  api_network:
