@@ -1,0 +1,8 @@
+{
+    "require": {
+        "slim/slim-skeleton": "^3.1",
+        "palanik/corsslim": "dev-slim3",
+        "ext-json": "*",
+        "firebase/php-jwt": "^5.0"
+    }
+}
